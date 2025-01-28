@@ -29,6 +29,6 @@ if __name__ == '__main__':
     with open(models_list_path, 'r') as file:
         models = file.read().splitlines()
 
-    texts_evaluator = TextsEstimator(api_key=GROQ_API_KEY, prompt_file_link=prompt_path,
+    texts_evaluator = TextsEstimator(api_key=API_KEY, prompt_file_link=prompt_path,
                                      models=models, output_filename=output_filename)
     texts_evaluator.evaluate_texts(data_path=data_path, max_size=max_size)

@@ -1,7 +1,7 @@
-import groq
-from groq import Groq
+import openai
+from openai import OpenAI
 
-from core.constants import EVALUATION_BACKUP_PATH
+from core.constants import EVALUATION_BACKUP_PATH, API_URL
 from core.utils.logger import logger
 from core.utils.file_utils import load_evaluation_backup, save_evaluation_backup
 from core.utils.texts_processing import *
@@ -9,8 +9,9 @@ from core.utils.texts_processing import *
 
 class TextsEstimator:
     def __init__(self, api_key: str, prompt_file_link: str, models: list, output_filename: str):
-        self.client = Groq(
-            api_key=api_key
+        self.client = OpenAI(
+            api_key=api_key,
+            base_url=API_URL
         )
         self.models = models
         self.output_path = f"output/{output_filename}"
@@ -95,7 +96,7 @@ class TextsEstimator:
                         except ValueError:
                             logger.error(f"Ошибка, ответ модели {model} - {content} "
                                          f"не может быть интерпретирован как число")
-            except groq.NotFoundError as e:
+            except openai.NotFoundError as e:
                 logger.error(f"{e}")
         logger.info(evaluation_summary)
         return evaluation_summary
